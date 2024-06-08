@@ -1,0 +1,133 @@
+syntax = "proto3";
+
+package event;
+
+service EventRequestService {
+    rpc GetEventRequests (Empty) returns (EventRequestsResponse) {}
+    rpc GetEventRequestsByAuthor (GetEventRequestsByAuthorDto) returns (EventRequestsResponse) {}
+    rpc GetEventRequestById (EventRequestIdDto) returns (EventRequestResponse) {}
+    rpc SendEventRequest (CreateEventRequestDto) returns (EventRequestResponse) {}
+    rpc UpdateEventRequest (UpdateEventRequestDto) returns (EventRequestResponse) {}
+    rpc ConfirmEventRequestsByUser (EventRequestIdDto) returns (EventRequestsResponse) {}
+    rpc RejectRequestsByUser (EventRequestIdDto) returns (EventRequestsResponse) {}
+}
+
+message Empty {}
+
+message EventRequestResponse {
+    MessageEventRequestResponse message = 1;
+    int32 statusCode = 2;
+    string error = 3;
+}
+
+message EventRequestsResponse {
+    MessageEventRequestsResponse message = 1;
+    int32 statusCode = 2;
+    string error = 3;
+}
+
+message MessageEventRequestResponse {
+    int32 code = 1;
+    oneof option {
+        string message = 2;
+        EventRequest data = 3;
+        string error = 4;
+    };
+}
+
+message MessageEventRequestsResponse {
+    int32 code = 1;
+    oneof option {
+        string message = 2;
+        EventRequests data = 3;
+        string error = 4;
+    };
+}
+
+message EventRequests {
+    repeated EventRequest records = 3;
+}
+
+message GetEventRequestsByAuthorDto {
+    string author = 1;
+}
+
+message CreateEventRequestDto {
+    string eventId = 6;
+    string author = 7;
+    string name = 8;
+    string description = 9;
+    repeated EventDate date = 10;
+    string city = 11;
+    string place = 12;
+    string address = 13;
+    File mainImage = 14;
+    repeated File images = 15;
+    string ageLimit = 16;
+    int32 price = 17;
+    string currency = 18;
+    repeated string tags = 19;
+    repeated string categories = 20;
+    repeated string organizers = 21;
+    string status = 22;
+}
+
+message File {
+    string fieldname = 1;
+    string originalname = 2;
+    string encoding = 3;
+    string mimetype = 4;
+    bytes buffer = 5;
+    int64 size = 6;
+}
+
+message UpdateEventRequestDto {
+    string id = 1;
+    string eventId = 6;
+    string author = 7;
+    string name = 8;
+    string description = 9;
+    repeated EventDate date = 10;
+    string city = 11;
+    string place = 12;
+    string address = 13;
+    string mainImage = 14;
+    repeated string images = 15;
+    string ageLimit = 16;
+    int32 price = 17;
+    string currency = 18;
+    repeated string tags = 19;
+    repeated string categories = 20;
+    repeated string organizers = 21;
+    string status = 22;
+}
+
+message EventRequest {
+    string id = 1;
+    string eventId = 6;
+    string author = 7;
+    string name = 8;
+    string description = 9;
+    repeated EventDate date = 10;
+    string city = 11;
+    string place = 12;
+    string address = 13;
+    string mainImage = 14;
+    repeated string images = 15;
+    string ageLimit = 16;
+    int32 price = 17;
+    string currency = 18;
+    repeated string tags = 19;
+    repeated string categories = 20;
+    repeated string organizers = 21;
+    string status = 22;
+}
+
+message EventRequestIdDto {
+    string id = 1;
+}
+
+message EventDate {
+    string dateStart = 1;
+    string dateEnd = 2;
+}
